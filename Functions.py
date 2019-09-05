@@ -65,6 +65,6 @@ def createValueA(networkObjects):
 def createFilterB(networkObjects):
     filters = []
     
-    filters.append(np.random.rand(networkObjects[0]))
+    filters.append(np.random.rand(networkObjects[2]))
     
     return filters

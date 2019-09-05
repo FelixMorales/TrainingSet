@@ -18,8 +18,8 @@ def BackPropagation(layer):
     layer.backProgate(layer)
 
 x = 3
-y = 1
-k = 2
+y = 2
+k = 10
 
 
 
@@ -36,7 +36,7 @@ print("ELIMINANDO FILTRO NODO A")
 print(network.nodes[0].objects[0].filters)
 '''
 
-Functions.addFilterNodeA(network.nodes[0].objects[0])
+#Functions.addFilterNodeA(network.nodes[0].objects[0])
 Propagation(network.nodes[4].objects[0])
 print("NODE A VALUE= ",network.nodes[0].objects[0].value,"\n")
 print("NODE B VALUE= ",network.nodes[1].objects[0].value,"\n")
