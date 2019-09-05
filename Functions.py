@@ -38,6 +38,18 @@ def Dot(f, v):
     return y 
 
 
+
+def removeFilterNodeA(layer):
+    del layer.filters[len(layer.filters) - 1]
+    del layer.bias[len(layer.bias) - 1] 
+
+    
+def addFilterNodeA(layer):
+        
+    if layer.filters is not None and len(layer.filters) > 0:
+        layer.filters.append(np.random.rand(*layer.filters[0].shape))
+
+
 def createFilterA(networkObjects):
     filters = []
 

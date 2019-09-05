@@ -1,4 +1,5 @@
 import Network as nw
+import Functions
 
 def Propagation(layer):
 
@@ -17,7 +18,7 @@ def BackPropagation(layer):
     layer.backProgate(layer)
 
 x = 2
-y = 2
+y = 1
 k = 2
 
 
@@ -25,7 +26,15 @@ k = 2
 objects = [x, y, k]
 network = nw.Network(objects)
 
-#print(network.nodes[1].objects[0].filters)
+'''
+print(network.nodes[0].objects[0].filters)
+Functions.addFilterNodeA(network.nodes[0].objects[0])
+print("AGREGANDO FILTRO NODO A")
+print(network.nodes[0].objects[0].filters)
+Functions.removeFilterNodeA(network.nodes[0].objects[0])
+print("ELIMINANDO FILTRO NODO A")
+print(network.nodes[0].objects[0].filters)
+'''
 
 
 Propagation(network.nodes[4].objects[0])

@@ -10,6 +10,10 @@ class Layer():
         self.label = None
         self.bias = bias ## bias = filters
         self.backProgate = None
+
+
+
+                
         
 
 
