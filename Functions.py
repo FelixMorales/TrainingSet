@@ -48,6 +48,7 @@ def addFilterNodeA(layer):
         
     if layer.filters is not None and len(layer.filters) > 0:
         layer.filters.append(np.random.rand(*layer.filters[0].shape))
+        layer.bias.append(np.random.rand(*layer.filters[0].shape))
 
 
 def createFilterA(networkObjects):
