@@ -1,5 +1,4 @@
 import Network as nw
-import numpy as np
 
 def Propagation(layer):
 
