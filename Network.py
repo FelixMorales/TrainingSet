@@ -1,0 +1,51 @@
+import Node as nd
+import Layer as ly
+import Functions
+
+class Network:
+
+    def __init__(self, objects):
+        # objects [x, y, k]
+        # x -> dimension x
+        # y -> dimension y
+        # k -> cantidad filtros
+        self.objects = objects
+        self.nodes = []
+        self.__createStructure()
+
+    def __createStructure(self):
+        nodes = []
+
+        nodes.append(nd.Node())
+        nodes.append(nd.Node())
+        nodes.append(nd.Node())
+        nodes.append(nd.Node())
+        nodes.append(nd.Node())
+
+        nodes[0].kids.append(nodes[1])
+        nodes[1].kids.append(nodes[2])
+        nodes[2].kids.append(nodes[3])
+        nodes[3].kids.append(nodes[4])
+
+        nodes[1].parents.append(nodes[0])
+        nodes[2].parents.append(nodes[1])
+        nodes[3].parents.append(nodes[2])
+        nodes[4].parents.append(nodes[3])
+
+
+        self.nodes = nodes 
+        self.__assignLayers()
+
+    def __assignLayers(self):
+
+        self.nodes[0].objects.append(ly.Layer(Functions.Nothing, self.nodes[0], 
+                            Functions.createFilterA(self.objects), Functions.createValueA(self.objects)))
+
+        self.nodes[1].objects.append(ly.Layer(Functions.ProductoPunto, self.nodes[1], 
+                           [Functions.createFilterB(self.objects), Functions.createFilterB(self.objects)]))
+
+        self.nodes[2].objects.append(ly.Layer(Functions.ProductoPunto, self.nodes[2]))
+        self.nodes[3].objects.append(ly.Layer(Functions.probability, self.nodes[3]))
+        self.nodes[4].objects.append(ly.Layer(Functions.logaritmo, self.nodes[4]))
+
+
