@@ -38,14 +38,18 @@ class Network:
 
     def __assignLayers(self):
 
-        self.nodes[0].objects.append(ly.Layer(Functions.Nothing, self.nodes[0], 
-                            Functions.createFilterA(self.objects), Functions.createValueA(self.objects)))
+        self.nodes[0].objects.append(ly.Layer(propagate=Functions.Nothing, node=self.nodes[0], 
+                            filters=Functions.createFilterA(self.objects), value=Functions.createValueA(self.objects),
+                            bias=Functions.createFilterA(self.objects)))
 
-        self.nodes[1].objects.append(ly.Layer(Functions.ProductoPunto, self.nodes[1], 
-                           [Functions.createFilterB(self.objects), Functions.createFilterB(self.objects)]))
+        self.nodes[1].objects.append(ly.Layer(propagate=Functions.ProductoPunto, node=self.nodes[1], 
+                           filters=[Functions.createFilterB(self.objects), Functions.createFilterB(self.objects)], 
+                           bias=[Functions.createFilterB(self.objects), Functions.createFilterB(self.objects)]))
 
-        self.nodes[2].objects.append(ly.Layer(Functions.ProductoPunto, self.nodes[2]))
-        self.nodes[3].objects.append(ly.Layer(Functions.probability, self.nodes[3]))
-        self.nodes[4].objects.append(ly.Layer(Functions.logaritmo, self.nodes[4]))
+        self.nodes[2].objects.append(ly.Layer(propagate=Functions.ProductoPunto, node=self.nodes[2]))
+        self.nodes[3].objects.append(ly.Layer(propagate=Functions.probability, node=self.nodes[3]))
+        self.nodes[4].objects.append(ly.Layer(propagate=Functions.logaritmo, node=self.nodes[4]))
+
+
 
 

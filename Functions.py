@@ -15,7 +15,7 @@ def ProductoPunto(layer):
 
 def probability(layer):
     parent = layer.node.parents[0]
-    sc =  parent.objects[0].value[0] #Preguntar porque y donde el nodo padre tiene un arreglo de valores
+    sc =  parent.objects[0].value[0] 
     sn = parent.objects[0].value[1]
 
     if parent.objects[0].label is None or parent.objects[0].label == "c":
@@ -42,16 +42,16 @@ def createFilterA(networkObjects):
     filters = []
 
     for x in range(networkObjects[2]):
-        filters.append(np.zeros((networkObjects[0], networkObjects[1], 3), dtype=float))
+        filters.append(np.random.rand(networkObjects[0], networkObjects[1], 3))
     
     return filters
 
 def createValueA(networkObjects):
-    return np.zeros((networkObjects[0], networkObjects[1], 3), dtype=float)
+    return np.random.rand(networkObjects[0], networkObjects[1], 3)
 
 def createFilterB(networkObjects):
     filters = []
     
-    filters.append(np.zeros((networkObjects[0]), dtype=float))
+    filters.append(np.random.rand(networkObjects[0]))
     
     return filters
