@@ -25,7 +25,27 @@ def probability(layer):
 
 def logaritmo(layer):
     parent = layer.node.parents[0]
-    layer.value = np.log(parent.objects[0].value)
+    layer.value = np.log(parent.objects[0].value)*-1
+
+def probability_der(layer):
+    layer.value_der = (1/layer.value)*-1
+
+def c_filter_der(layer):
+    kid = layer.node.kids[0]
+    p = kid.objects[0].value
+    sc = layer.value[0] 
+    sn = layer.value[1]
+
+    filter_der = np.zeros(2, dtype=float)
+
+    if kid.objects[0].label == "c":
+        filter_der[0] = p - (p*p)
+        filter_der[1] = (-(p*p)*np.exp(sn))/np.exp(sc)
+    else:
+        filter_der[0] = (-(p*p)*np.exp(sc))/np.exp(sn)
+        filter_der[1] = p - (p*p)
+    
+    layer.value_der = filter_der*kid.objects[0].value_der
 
 ## f = filter
 ## v = value
@@ -56,7 +76,7 @@ def createFilterA(networkObjects):
 
     for x in range(networkObjects[2]):
         filters.append(np.random.rand(networkObjects[0], networkObjects[1], 3))
-    
+
     return filters
 
 def createValueA(networkObjects):

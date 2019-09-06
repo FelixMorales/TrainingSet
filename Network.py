@@ -46,10 +46,12 @@ class Network:
                            filters=[Functions.createFilterB(self.objects), Functions.createFilterB(self.objects)], 
                            bias=[Functions.createFilterB(self.objects), Functions.createFilterB(self.objects)]))
 
-        self.nodes[2].objects.append(ly.Layer(propagate=Functions.ProductoPunto, node=self.nodes[2]))
-        self.nodes[3].objects.append(ly.Layer(propagate=Functions.probability, node=self.nodes[3]))
-        self.nodes[4].objects.append(ly.Layer(propagate=Functions.logaritmo, node=self.nodes[4]))
+        self.nodes[2].objects.append(ly.Layer(propagate=Functions.ProductoPunto, node=self.nodes[2],backPropagate=Functions.c_filter_der))
+        self.nodes[3].objects.append(ly.Layer(propagate=Functions.probability, node=self.nodes[3], backPropagate=Functions.probability_der))
+        self.nodes[4].objects.append(ly.Layer(propagate=Functions.logaritmo, node=self.nodes[4], backPropagate=Functions.Nothing))
 
-
+    def assign(self, x, label=None):
+        self.nodes[0].objects[0].value = x
+        self.nodes[3].objects[0].label = label
 
 
