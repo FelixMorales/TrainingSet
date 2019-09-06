@@ -1,6 +1,5 @@
 import Network as nw
 import Functions
-import numpy as np
 
 def Propagation(layer):
 
@@ -16,7 +15,7 @@ def BackPropagation(layer):
         kidLayer = kid.objects[0]
         BackPropagation(kidLayer)
 
-    layer.backProgate(layer)
+    layer.backPropagate(layer)
 
 x = 3
 y = 4

@@ -9,7 +9,7 @@ class Layer():
         self.value = value
         self.label = None
         self.bias = bias ## bias = filters
-        self.backProgate = backPropagate
+        self.backPropagate = backPropagate
         self.value_der = None
         self.filter_der = None
         self.bias_der = None
