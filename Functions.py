@@ -4,6 +4,8 @@ import random
 def Nothing(layer):
     pass
 
+############### FUNCIONES PROPAGATE ###############
+
 def ProductoPunto(layer):
     parent = layer.node.parents[0]
     
@@ -28,6 +30,18 @@ def logaritmo(layer):
     parent = layer.node.parents[0]
     layer.value = np.log(parent.objects[0].value)*-1
 
+## f = filter
+## v = value
+def Dot(f, v):
+
+    y = f * v
+    y = y.sum()
+    y = y / len(f)
+
+    return y 
+
+############### FUNCIONES BACKPROPAGATE ###############
+
 def probability_der(layer):
     layer.value_der = (1/layer.value)*-1
 
@@ -48,17 +62,8 @@ def c_filter_der(layer):
     
     layer.value_der = filter_der*kid.objects[0].value_der
 
-## f = filter
-## v = value
-def Dot(f, v):
 
-    y = f * v
-    y = y.sum()
-    y = y / len(f)
-
-    return y 
-
-
+############### ELIMINAR FILTROS ###############
 
 def removeFilterNodeA(layer):
     del layer.filters[len(layer.filters) - 1]
@@ -69,6 +74,9 @@ def addFilters(layer):
         
     addFilterNodeA(layer)
     addFilterNodeB(layer.node.kids[0].objects[0])
+
+
+############### AGREGAR FILTROS ###############
 
 def addFilterNodeA(layerNodeA):
 
@@ -127,6 +135,9 @@ def createNewFilterNodeB(oldFilter, newShape):
 
     return newFilter
 
+
+
+############### ESTRUCTURA INICIAL NODOS A & B ###############
 
 def createFilterA(networkObjects):
 
