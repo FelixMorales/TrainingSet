@@ -43,8 +43,8 @@ class Network:
                             bias=Functions.createFilterA(self.objects)))
 
         self.nodes[1].objects.append(ly.Layer(propagate=Functions.ProductoPunto, node=self.nodes[1], 
-                           filters=[Functions.createFilterB(self.objects), Functions.createFilterB(self.objects)], 
-                           bias=[Functions.createFilterB(self.objects), Functions.createFilterB(self.objects)]))
+                           filters=Functions.createFilterB(self.objects), 
+                           bias=Functions.createFilterB(self.objects)))
 
         self.nodes[2].objects.append(ly.Layer(propagate=Functions.ProductoPunto, node=self.nodes[2],backPropagate=Functions.c_filter_der))
         self.nodes[3].objects.append(ly.Layer(propagate=Functions.probability, node=self.nodes[3], backPropagate=Functions.probability_der))

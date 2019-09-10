@@ -18,12 +18,13 @@ def BackPropagation(layer):
     layer.backPropagate(layer)
 
 x = 3
-y = 4
-k = 2
+y = 3
+k = 4
 
 
+objects = Functions.np.full((3), (x, y, k))
+print(objects)
 
-objects = [x, y, k]
 network = nw.Network(objects)
 
 

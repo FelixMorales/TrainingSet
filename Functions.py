@@ -72,19 +72,23 @@ def addFilterNodeA(layer):
 
 
 def createFilterA(networkObjects):
-    filters = []
+    filters = np.random.rand(networkObjects[2],networkObjects[0], networkObjects[1], 3)
 
+    '''
+    filters = []
     for x in range(networkObjects[2]):
         filters.append(np.random.rand(networkObjects[0], networkObjects[1], 3))
-
+    '''
     return filters
 
 def createValueA(networkObjects):
     return np.random.rand(networkObjects[0], networkObjects[1], 3)
 
 def createFilterB(networkObjects):
-    filters = []
+    #filters = []
     
-    filters.append(np.random.rand(networkObjects[2]))
+    #filters.append(np.random.rand(networkObjects[2]))
     
+    filters = np.random.rand(2, networkObjects[2])
+
     return filters
