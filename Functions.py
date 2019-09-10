@@ -65,18 +65,56 @@ def c_filter_der(layer):
 
 ############### ELIMINAR FILTROS ###############
 
-def removeFilterNodeA(layer):
-    del layer.filters[len(layer.filters) - 1]
-    del layer.bias[len(layer.bias) - 1] 
+def removeFilters(layer):
+    removeFilterNodeA(layer)
+    removeFilterNodeB(layer.node.kids[0].objects[0])
 
+def removeFilterNodeA(layerNodeA):
+    if layerNodeA.filters is not None and len(layerNodeA.filters) > 0:
+        
+        newFilterShape = list(layerNodeA.filters.shape)
+        
+        if newFilterShape[0] > 0:
+            newFilterShape[0] -= 1
+        
+        layerNodeA.filters = deleteLastFilter(layerNodeA.filters, newFilterShape)
+        layerNodeA.bias = deleteLastFilter(layerNodeA.bias, newFilterShape)
+
+def removeFilterNodeB(layerNodeB):
+    if layerNodeB.filters[0] is not None and len(layerNodeB.filters[0]) > 0:
+
+        newFilterShape = list(layerNodeB.filters[0].shape)
+        if newFilterShape[0] > 0:
+            newFilterShape[0] -= 1
+
+        auxFilter = np.zeros((2, newFilterShape[0]), dtype=float)
+
+        auxFilter[0] = deleteLastFilter(layerNodeB.filters[0], newFilterShape)
+        auxFilter[1] = deleteLastFilter(layerNodeB.filters[1], newFilterShape)
+
+        auxBias = np.zeros((2, newFilterShape[0]), dtype=float)
+        
+        auxBias[0] = deleteLastFilter(layerNodeB.bias[0], newFilterShape)
+        auxBias[1] = deleteLastFilter(layerNodeB.bias[1], newFilterShape)
+
+        layerNodeB.filters = auxFilter
+        layerNodeB.bias = auxBias
+
+def deleteLastFilter(oldFilter, newShape):
     
+    newFilter = np.zeros(tuple(newShape), dtype=float)
+
+    for i in range(newShape[0]):
+        newFilter[i] = oldFilter[i]
+
+    return newFilter
+
+############### AGREGAR FILTROS ###############
+
 def addFilters(layer):
         
     addFilterNodeA(layer)
     addFilterNodeB(layer.node.kids[0].objects[0])
-
-
-############### AGREGAR FILTROS ###############
 
 def addFilterNodeA(layerNodeA):
 
@@ -114,15 +152,19 @@ def addFilterNodeB(layerNodeB):
         newFilterShape = list(layerNodeB.filters[0].shape)
         newFilterShape[0] += 1
 
-        layerNodeB.filters = np.zeros((2, newFilterShape[0]), dtype=float)
+        auxFilter = np.zeros((2, newFilterShape[0]), dtype=float)
 
-        layerNodeB.filters[0] = createNewFilterNodeB(layerNodeB.filters[0], newFilterShape)
-        layerNodeB.filters[1] = createNewFilterNodeB(layerNodeB.filters[1], newFilterShape)
+        auxFilter[0] = createNewFilterNodeB(layerNodeB.filters[0], newFilterShape)
+        auxFilter[1] = createNewFilterNodeB(layerNodeB.filters[1], newFilterShape)
 
-        layerNodeB.bias = np.zeros((2, newFilterShape[0]), dtype=float)
+        auxBias = np.zeros((2, newFilterShape[0]), dtype=float)
         
-        layerNodeB.bias[0] = createNewFilterNodeB(layerNodeB.bias[0], newFilterShape)
-        layerNodeB.bias[1] = createNewFilterNodeB(layerNodeB.bias[1], newFilterShape)
+        auxBias[0] = createNewFilterNodeB(layerNodeB.bias[0], newFilterShape)
+        auxBias[1] = createNewFilterNodeB(layerNodeB.bias[1], newFilterShape)
+
+        layerNodeB.filters = auxFilter
+        layerNodeB.bias = auxBias
+
 
 # Crear nuevos filtros / bias para el nodo B
 def createNewFilterNodeB(oldFilter, newShape):
