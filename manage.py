@@ -19,17 +19,24 @@ def BackPropagation(layer):
 
 x = 3
 y = 3
-k = 4
+k = 2
 
 
 objects = Functions.np.full((3), (x, y, k))
-print(objects)
 
 network = nw.Network(objects)
 
 
-
 network.assign(Functions.createValueA(network.objects), "c")
+
+#print(network.nodes[1].objects[0].filters,"\n")
+#print("NUEVO FILTRO","\n")
+
+Functions.addFilters(network.nodes[0].objects[0])
+
+#print(network.nodes[1].objects[0].filters)
+
+
 Propagation(network.nodes[4].objects[0])
 print("NODE A VALUE= ",network.nodes[0].objects[0].value,"\n")
 print("NODE B VALUE= ",network.nodes[1].objects[0].value,"\n")

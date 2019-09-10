@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 def Nothing(layer):
     pass
@@ -64,31 +65,100 @@ def removeFilterNodeA(layer):
     del layer.bias[len(layer.bias) - 1] 
 
     
-def addFilterNodeA(layer):
+def addFilters(layer):
         
-    if layer.filters is not None and len(layer.filters) > 0:
-        layer.filters.append(np.random.rand(*layer.filters[0].shape))
-        layer.bias.append(np.random.rand(*layer.filters[0].shape))
+    addFilterNodeA(layer)
+    addFilterNodeB(layer.node.kids[0].objects[0])
+
+def addFilterNodeA(layerNodeA):
+
+    if layerNodeA.filters is not None and len(layerNodeA.filters) > 0:
+
+            # Obtengo la estructura del tensor del filtro original y lo convierto a lista mutable
+            filterShape = list(layerNodeA.filters.shape)
+            
+            # Aumento la cantidad de filtros (Valor de K)
+            filterShape[0] += 1
+            
+            # Creo los nuevos filtros partiendo de los valores existentes del filtro anterior y la nueva estructura
+
+            newFilter = np.zeros(tuple(filterShape), dtype=float)
+
+            for i in range(len(layerNodeA.filters)):
+                newFilter[i] = layerNodeA.filters[i]
+
+            # Creo los nuevos valores random para el nuevo filtro K + 1.
+            newFilter[len(newFilter) - 1] = np.random.rand(*layerNodeA.filters.shape[1:])
+            
+            # Repito el proceso para el Bias
+            newBias = np.zeros(tuple(filterShape), dtype=float)
+
+            for i in range(len(layerNodeA.bias)):
+                newBias[i] = layerNodeA.bias[i]
+
+            newBias[len(newBias) - 1] = np.random.rand(*layerNodeA.filters.shape[1:])
+
+            layerNodeA.filters = newFilter
+            layerNodeA.bias = newBias
+
+def addFilterNodeB(layerNodeB):
+
+    if layerNodeB.filters[0] is not None and len(layerNodeB.filters[0]) > 0:
+
+        filterShape = list(layerNodeB.filters[0].shape)
+        filterShape[0] += 1
+
+        newFilter1 = np.zeros(tuple(filterShape), dtype=float)
+
+        for i in range(len(layerNodeB.filters[0])):
+            newFilter1[i] = layerNodeB.filters[0][i]
+        
+        newFilter1[len(newFilter1) - 1] = random.uniform(0, 1)
+
+        newFilter2 = np.zeros(tuple(filterShape), dtype=float)
+
+        for i in range(len(layerNodeB.filters[1])):
+            newFilter2[i] = layerNodeB.filters[1][i]
+        
+        newFilter2[len(newFilter2) - 1] = random.uniform(0, 1)
+
+        layerNodeB.filters = np.zeros((2, filterShape[0]), dtype=float)
+
+        layerNodeB.filters[0] = newFilter1
+        layerNodeB.filters[1] = newFilter2
+
+
+        newBias1 = np.zeros(tuple(filterShape), dtype=float)
+
+        for i in range(len(layerNodeB.bias[0])):
+            newBias1[i] = layerNodeB.bias[0][i]
+        
+        newBias1[len(newBias1) - 1] = random.uniform(0, 1)
+
+        newBias2 = np.zeros(tuple(filterShape), dtype=float)
+
+        for i in range(len(layerNodeB.bias[1])):
+            newBias2[i] = layerNodeB.bias[1][i]
+        
+        newBias2[len(newBias2) - 1] = random.uniform(0, 1)
+
+        layerNodeB.bias = np.zeros((2, filterShape[0]), dtype=float)
+        
+        layerNodeB.bias[0] = newBias1
+        layerNodeB.bias[1] = newBias2
 
 
 def createFilterA(networkObjects):
-    filters = np.random.rand(networkObjects[2],networkObjects[0], networkObjects[1], 3)
 
-    '''
-    filters = []
-    for x in range(networkObjects[2]):
-        filters.append(np.random.rand(networkObjects[0], networkObjects[1], 3))
-    '''
+    filters = np.random.rand(networkObjects[2],networkObjects[0], networkObjects[1], 3)
     return filters
 
 def createValueA(networkObjects):
+
     return np.random.rand(networkObjects[0], networkObjects[1], 3)
 
 def createFilterB(networkObjects):
-    #filters = []
-    
-    #filters.append(np.random.rand(networkObjects[2]))
-    
+
     filters = np.random.rand(2, networkObjects[2])
 
     return filters
