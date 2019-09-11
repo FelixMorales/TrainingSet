@@ -40,11 +40,11 @@ class Network:
 
         self.nodes[0].objects.append(ly.Layer(propagate=Functions.Nothing, node=self.nodes[0], 
                             filters=Functions.createFilterA(self.objects), value=Functions.createValueA(self.objects),
-                            bias=Functions.createFilterA(self.objects), backPropagate=Functions.a_filter_der))
+                            bias=Functions.createValueA(self.objects), backPropagate=Functions.a_filter_der))
 
         self.nodes[1].objects.append(ly.Layer(propagate=Functions.ProductoPunto, node=self.nodes[1], 
                            filters=Functions.createFilterB(self.objects), 
-                           bias=Functions.createFilterB(self.objects), backPropagate=Functions.b_filter_der))
+                           bias=None, backPropagate=Functions.b_filter_der))
 
         self.nodes[2].objects.append(ly.Layer(propagate=Functions.ProductoPunto, node=self.nodes[2],backPropagate=Functions.c_filter_der))
         self.nodes[3].objects.append(ly.Layer(propagate=Functions.probability, node=self.nodes[3], backPropagate=Functions.probability_der))
