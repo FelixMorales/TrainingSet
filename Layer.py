@@ -10,9 +10,15 @@ class Layer():
         self.label = None
         self.bias = bias ## bias = filters
         self.backPropagate = backPropagate
+
         self.value_der = None
         self.filter_der = None
         self.bias_der = None
+
+        self.value_der_total = None
+        self.filter_der_total = None
+        self.bias_der_total = None
+
 
 
                 

@@ -67,6 +67,8 @@ def c_filter_der(layer):
     
     layer.value_der = filter_der*kid.objects[0].value_der
 
+    layer.value_der_total = np.zeros((layer.value_der.shape), dtype=float)
+
 def b_filter_der(layer):
     kid = layer.node.kids[0]
     filter_der = np.zeros((layer.filters.shape), dtype=float)
@@ -81,8 +83,13 @@ def b_filter_der(layer):
     bias_der = (layer.filters[0] * kid.objects[0].value_der[0]) + (layer.filters[1] * kid.objects[0].value_der[1])
 
     layer.filter_der = filter_der
+    layer.filter_der_total = np.zeros((layer.filter_der.shape), dtype=float)
+    
     layer.value_der = value_der
+    layer.value_der_total = np.zeros((layer.value_der.shape), dtype=float)
+
     layer.bias_der = bias_der
+    layer.bias_der_total = np.zeros((layer.bias_der.shape), dtype=float)
 
 def a_filter_der(layer):
 
@@ -98,6 +105,9 @@ def a_filter_der(layer):
     
     layer.filter_der = filter_der
     layer.bias_der = bias_der
+
+    layer.bias_der_total = np.zeros((layer.bias_der.shape), dtype=float)
+    layer.filter_der_total = np.zeros((layer.filter_der.shape), dtype=float)
 
 ############### ELIMINAR FILTROS ###############
 

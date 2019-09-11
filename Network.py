@@ -54,4 +54,56 @@ class Network:
         self.nodes[0].objects[0].value = x
         self.nodes[3].objects[0].label = label
 
+    
+    def Acumulate_der(self, l):
 
+        for node in self.nodes:
+            layer = node.objects[0]
+
+            if layer.value_der is not None and layer.value_der_total is not None:
+                layer.value_der_total = (layer.value_der_total + layer.value_der) / l
+
+            if layer.bias_der is not None and layer.bias_der_total is not None:
+                layer.bias_der_total = (layer.bias_der_total + layer.bias_der) / l
+            
+            if layer.filter_der is not None and layer.filter_der_total is not None:
+                layer.filter_der_total = (layer.filter_der_total + layer.filter_der) / l
+    
+    def Regularize_der(self):
+        
+        for node in self.nodes:
+            layer = node.objects[0]
+
+            if layer.bias is not None and layer.bias_der_total is not None:
+                layer.bias_der_total = layer.bias_der_total + layer.bias
+            
+            if layer.filters is not None and layer.filter_der_total is not None:
+                layer.filter_der_total = layer.filter_der_total + layer.filters
+
+    def Reset_der(self):
+
+        for node in self.nodes:
+            layer = node.objects[0]
+
+            if layer.value_der is not None:
+                layer.value_der = layer.value_der * 0
+
+            if layer.bias_der is not None:
+                layer.bias_der = layer.bias_der * 0
+            
+            if layer.filter_der is not None:
+                layer.filter_der = layer.filter_der * 0
+
+    def Reset_der_total(self):
+
+        for node in self.nodes:
+            layer = node.objects[0]
+
+            if layer.value_der_total is not None:
+                layer.value_der_total = layer.value_der_total * 0
+
+            if layer.bias_der_total is not None:
+                layer.bias_der_total = layer.bias_der_total * 0
+            
+            if layer.filter_der_total is not None:
+                layer.filter_der_total = layer.filter_der_total * 0
