@@ -73,10 +73,9 @@ def b_filter_der(layer):
     bias_der[0] = layer.filters[0] * kid.objects[0].value_der[0]
     bias_der[1] = layer.filters[1] * kid.objects[0].value_der[1]
 
-    value_der = np.zeros((layer.filters.shape), dtype=float)
+    value_der = np.zeros((layer.value.shape), dtype=float)
 
-    value_der[0] = layer.filters[0] * kid.objects[0].value_der[0]
-    value_der[1] = layer.filters[1] * kid.objects[0].value_der[1]
+    value_der = (layer.filters[0] * kid.objects[0].value_der[0]) + (layer.filters[1] * kid.objects[0].value_der[1])
 
     layer.filter_der = filter_der
     layer.bias_der = bias_der
