@@ -60,7 +60,7 @@ print("NODE D VALUE= ",network.nodes[3].objects[0].value,"\n")
 print("NODE E VALUE= ",network.nodes[4].objects[0].value,"\n")
 
 
-BackPropagation(network.nodes[1].objects[0])
+BackPropagation(network.nodes[0].objects[0])
 print("NODE D VALUE_DER= ",network.nodes[3].objects[0].value_der,"\n")
 print("NODE C VALUE_DER= ",network.nodes[2].objects[0].value_der,"\n")
 print("NODE B VALUE_DER= ",network.nodes[1].objects[0].value_der,"\n")

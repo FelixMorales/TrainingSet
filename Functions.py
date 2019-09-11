@@ -81,6 +81,22 @@ def b_filter_der(layer):
     layer.bias_der = bias_der
     layer.value_der = value_der
 
+def a_filter_der(layer):
+
+    filter_der = np.zeros((layer.filters.shape), dtype=float)
+    bias_der = np.zeros((layer.filters.shape), dtype=float)
+    kid = layer.node.kids[0]
+
+    for i in range(layer.filters.shape[0]):
+        filter_der[i] = layer.value * kid.objects[0].value_der[i]
+
+    for i in range(layer.filters.shape[0]):
+        bias_der[i] = layer.filters[i] * kid.objects[0].value_der[i]
+    
+    layer.filter_der = filter_der
+    layer.bias_der = bias_der
+
+
 ############### ELIMINAR FILTROS ###############
 
 def removeFilters(layer):

@@ -40,7 +40,7 @@ class Network:
 
         self.nodes[0].objects.append(ly.Layer(propagate=Functions.Nothing, node=self.nodes[0], 
                             filters=Functions.createFilterA(self.objects), value=Functions.createValueA(self.objects),
-                            bias=Functions.createFilterA(self.objects)))
+                            bias=Functions.createFilterA(self.objects), backPropagate=Functions.a_filter_der))
 
         self.nodes[1].objects.append(ly.Layer(propagate=Functions.ProductoPunto, node=self.nodes[1], 
                            filters=Functions.createFilterB(self.objects), 
