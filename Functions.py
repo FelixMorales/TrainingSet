@@ -12,7 +12,7 @@ def ProductoPunto(layer):
     y = np.zeros(len(parent.objects[0].filters))
 
     for i in range(len(parent.objects[0].filters)):
-        y[i] = Dot((parent.objects[0].filters[i] + parent.objects[0].bias[i]), parent.objects[0].value)
+        y[i] = Dot(parent.objects[0].filters[i], (parent.objects[0].value + parent.objects[0].bias[i]))
 
     layer.value = y
 
@@ -62,6 +62,25 @@ def c_filter_der(layer):
     
     layer.value_der = filter_der*kid.objects[0].value_der
 
+def b_filter_der(layer):
+    kid = layer.node.kids[0]
+    filter_der = np.zeros((layer.filters.shape), dtype=float)
+    bias_der = np.zeros((layer.filters.shape), dtype=float)
+
+    filter_der[0] = layer.value*kid.objects[0].value_der[0]
+    filter_der[1] = layer.value*kid.objects[0].value_der[1]
+
+    bias_der[0] = layer.filters[0] * kid.objects[0].value_der[0]
+    bias_der[1] = layer.filters[1] * kid.objects[0].value_der[1]
+
+    value_der = np.zeros((layer.filters.shape), dtype=float)
+
+    value_der[0] = layer.filters[0] * kid.objects[0].value_der[0]
+    value_der[1] = layer.filters[1] * kid.objects[0].value_der[1]
+
+    layer.filter_der = filter_der
+    layer.bias_der = bias_der
+    layer.value_der = value_der
 
 ############### ELIMINAR FILTROS ###############
 
