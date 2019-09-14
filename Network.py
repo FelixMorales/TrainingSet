@@ -118,13 +118,16 @@ class Network:
         return self.nodes[3].objects[0].value
     
     def Training(self, data, dt=0.1, p=0.9):
-        n = len(data) * 5/4
-        peso = len(data) / 4
+        n = Functions.decimal.Decimal(len(data) * 5/4)
+        peso = Functions.decimal.Decimal(len(data) / 4)
 
+        pdecimal = Functions.decimal.Decimal(p)
+        dt = Functions.decimal.Decimal(dt)
+        
         self.Train(data[0], peso, n)
 
         
-        while self.Predict(data[0]) < p:
+        while self.Predict(data[0]) < pdecimal:
             self.Train(data[0], peso, n)
 
             for image in data[1:]:
