@@ -1,91 +1,55 @@
 import Network as nw
 import Functions
+import decimal
 
-def Propagation(layer):
+decimal.getcontext().prec = 100
 
-    for parent in layer.node.parents:
-        layerParent = parent.objects[0]
-        Propagation(layerParent)
-
-    layer.propagate(layer)
- 
-def BackPropagation(layer):
+def generateData(data, objects, n):
     
-    for kid in layer.node.kids:
-        kidLayer = kid.objects[0]
-        BackPropagation(kidLayer)
+        circulo = []
+        circulo.append(Functions.np.zeros((objects[0], objects[1], 3), dtype=float))
+        circulo.append("c")
 
-    layer.backPropagate(layer)
+        data.append(circulo)
+
+        for i in range(objects[0]//2):
+            for j in range(objects[1]):
+                circulo[0][i][j] = [decimal.Decimal(255),decimal.Decimal(255),decimal.Decimal(255)]
+
+        for i in range(objects[0]//2, objects[0]):
+            for j in range(objects[1]):
+                circulo[0][i][j] = [1,1,1]
+
+        for i in range(n-1):
+            imagenRandom = []
+            imagenRandom.append(generateImageRandom(objects))
+            imagenRandom.append("n")
+
+            data.append(imagenRandom)
+
+
+def generateImageRandom(objects):
+    image = Functions.np.zeros((objects[0], objects[1], 3), dtype=float)
+
+    
+    for i in range(objects[0]):
+        for j in range(objects[1]):
+            image[i,j] = [decimal.Decimal(Functions.random.randint(1, 255)), 
+                decimal.Decimal(Functions.random.randint(1, 255)), 
+                decimal.Decimal(Functions.random.randint(1, 255))]
+    
+    return image
 
 x = 3
-y = 3
+y = 2
 k = 2
 
 
 objects = Functions.np.full((3), (x, y, k))
 
 network = nw.Network(objects)
+data = []
 
-network.assign(Functions.createValueA(network.objects), "c")
+generateData(data, objects, 100)
 
-Functions.addFilters(network.nodes[0].objects[0])
-
-Functions.removeFilters(network.nodes[0].objects[0])
-
-print("############################# PROPAGATION #############################", "\n", "\n")
-Propagation(network.nodes[4].objects[0])
-print("NODE A VALUE= ",network.nodes[0].objects[0].value,"\n")
-print("NODE B VALUE= ",network.nodes[1].objects[0].value,"\n")
-print("NODE C VALUE= ",network.nodes[2].objects[0].value,"\n")
-print("NODE D VALUE= ",network.nodes[3].objects[0].value,"\n")
-print("NODE E VALUE= ",network.nodes[4].objects[0].value,"\n")
-
-
-print("############################# BACK-PROPAGATION #############################", "\n", "\n")
-
-BackPropagation(network.nodes[0].objects[0])
-print("NODE D VALUE_DER= ",network.nodes[3].objects[0].value_der,"\n")
-print("NODE C VALUE_DER= ",network.nodes[2].objects[0].value_der,"\n")
-print("NODE B VALUE_DER= ",network.nodes[1].objects[0].value_der,"\n")
-
-print("############################# ACUMULATE #############################", "\n", "\n")
-
-print("NODE B VALUE_DER_TOTAL= ",network.nodes[1].objects[0].value_der_total,"\n")
-print("NODE B BIAS_DER_TOTAL= ",network.nodes[1].objects[0].bias_der_total,"\n")
-print("NODE B FILTER_DER_TOTAL= ",network.nodes[1].objects[0].filter_der_total,"\n")
-print("ACUMULATE(2)", "\n")
-network.Acumulate_der(2)
-print("NODE B VALUE_DER_TOTAL= ",network.nodes[1].objects[0].value_der_total,"\n")
-print("NODE B BIAS_DER_TOTAL= ",network.nodes[1].objects[0].bias_der_total,"\n")
-print("NODE B FILTER_DER_TOTAL= ",network.nodes[1].objects[0].filter_der_total,"\n")
-print("ACUMULATE(2)", "\n")
-network.Acumulate_der(2)
-print("NODE B VALUE_DER_TOTAL= ",network.nodes[1].objects[0].value_der_total,"\n")
-print("NODE B BIAS_DER_TOTAL= ",network.nodes[1].objects[0].bias_der_total,"\n")
-print("NODE B FILTER_DER_TOTAL= ",network.nodes[1].objects[0].filter_der_total,"\n")
-
-print("############################# REGULARIZE #############################", "\n", "\n")
-
-print("1st Regularize")
-network.Regularize_der()
-print("NODE B BIAS_DER_TOTAL= ",network.nodes[1].objects[0].bias_der_total,"\n")
-print("NODE B FILTER_DER_TOTAL= ",network.nodes[1].objects[0].filter_der_total,"\n")
-
-print("2nd Regularize")
-network.Regularize_der()
-print("NODE B BIAS_DER_TOTAL= ",network.nodes[1].objects[0].bias_der_total,"\n")
-print("NODE B FILTER_DER_TOTAL= ",network.nodes[1].objects[0].filter_der_total,"\n")
-
-print("############################# RESET DER #############################", "\n", "\n")
-
-network.Reset_der()
-print("NODE B VALUE_DER= ",network.nodes[1].objects[0].value_der,"\n")
-print("NODE B BIAS_DER= ",network.nodes[1].objects[0].bias_der,"\n")
-print("NODE B FILTER_DER= ",network.nodes[1].objects[0].filter_der,"\n")
-
-print("############################# RESET DER TOTAL #############################", "\n", "\n")
-
-network.Reset_der_total()
-print("NODE B VALUE_DER_TOTAL= ",network.nodes[1].objects[0].value_der_total,"\n")
-print("NODE B BIAS_DER_TOTAL= ",network.nodes[1].objects[0].bias_der_total,"\n")
-print("NODE B FILTER_DER_TOTAL= ",network.nodes[1].objects[0].filter_der_total,"\n")
+network.Training(data=data, dt=0.05, p=0.9)

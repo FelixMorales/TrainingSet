@@ -1,6 +1,22 @@
 import numpy as np
 import random
 
+def Propagation(layer):
+
+    for parent in layer.node.parents:
+        layerParent = parent.objects[0]
+        Propagation(layerParent)
+
+    layer.propagate(layer)
+ 
+def BackPropagation(layer):
+    
+    for kid in layer.node.kids:
+        kidLayer = kid.objects[0]
+        BackPropagation(kidLayer)
+
+    layer.backPropagate(layer)
+
 def Nothing(layer):
     pass
 
