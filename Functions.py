@@ -114,10 +114,10 @@ def a_filter_der(layer):
     kid = layer.node.kids[0]
 
     for i in range(layer.filters.shape[0]):
-        filter_der[i] = layer.value * kid.objects[0].value_der[i]
+        filter_der[i] = (layer.value * kid.objects[0].value_der[i])/len(layer.value)
 
     for i in range(layer.filters.shape[0]):
-        bias_der += (layer.filters[i] * kid.objects[0].value_der[i])
+        bias_der += (layer.filters[i] * kid.objects[0].value_der[i])/len(layer.filters[i])
     
     layer.filter_der = filter_der
     layer.bias_der = bias_der

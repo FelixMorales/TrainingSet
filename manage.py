@@ -14,7 +14,7 @@ def generateData(data, objects, n):
 
         for i in range(objects[0]//2):
             for j in range(objects[1]):
-                circulo[0][i][j] = [decimal.Decimal(255),decimal.Decimal(255),decimal.Decimal(255)]
+                circulo[0][i][j] = [255, 255, 255]
 
         for i in range(objects[0]//2, objects[0]):
             for j in range(objects[1]):
@@ -34,9 +34,9 @@ def generateImageRandom(objects):
     
     for i in range(objects[0]):
         for j in range(objects[1]):
-            image[i,j] = [decimal.Decimal(Functions.random.randint(1, 255)), 
-                decimal.Decimal(Functions.random.randint(1, 255)), 
-                decimal.Decimal(Functions.random.randint(1, 255))]
+            image[i,j] = [Functions.random.randint(1, 255), 
+                Functions.random.randint(1, 255), 
+                Functions.random.randint(1, 255)]
     
     return image
 
